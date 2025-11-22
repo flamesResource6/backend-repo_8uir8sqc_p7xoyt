@@ -12,9 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
-
-# Example schemas (replace with your own):
+from typing import Optional, List, Dict
 
 class User(BaseModel):
     """
@@ -37,6 +35,23 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+class ShoeProduct(BaseModel):
+    """
+    Sneakers product schema focused on shoes
+    Collection name: "shoeproduct"
+    """
+    title: str = Field(..., description="Product title")
+    slug: str = Field(..., description="URL-friendly unique identifier")
+    brand: str = Field(..., description="Brand name")
+    description: str = Field(..., description="Detailed description")
+    price: float = Field(..., ge=0, description="Price in USD")
+    rating: float = Field(4.5, ge=0, le=5, description="Average rating")
+    images: List[str] = Field(default_factory=list, description="Image URLs")
+    colors: List[Dict[str, str]] = Field(default_factory=list, description="List of colors with name and hex")
+    sizes: List[float] = Field(default_factory=list, description="Available sizes US scale")
+    stock: Dict[str, int] = Field(default_factory=dict, description="Stock per size (key is size as string)")
+    tags: List[str] = Field(default_factory=list, description="Search tags")
 
 # Add your own schemas here:
 # --------------------------------------------------
